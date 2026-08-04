@@ -1,0 +1,361 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+@use 'sass:color';
+
+// Breadcrumb
+.breadcrumb {
+    background-color: color.adjust(v.$secundario, $lightness: -5%);
+    padding: 1.5rem 0;
+
+    .container {
+        max-width: 120rem;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: .8rem;
+        flex-wrap: wrap;
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            font-size: 1.4rem;
+
+            &:not(:last-child)::after {
+                content: '/';
+                color: v.$grisOscuro;
+            }
+
+            a {
+                color: v.$primario;
+                text-decoration: none;
+                transition: color .2s ease;
+                font-weight: v.$bold;
+
+                &:hover {
+                    color: color.adjust(v.$primario, $lightness: -10%);
+                }
+
+                i {
+                    margin-right: .3rem;
+                }
+            }
+
+            span {
+                color: v.$grisOscuro;
+            }
+
+            &:last-child span {
+                color: v.$negro;
+                font-weight: v.$bold;
+            }
+        }
+    }
+}
+
+// Detalle Producto
+.detalle-producto {
+    padding: 4rem 0;
+    background-color: v.$blanco;
+
+    .container {
+        max-width: 120rem;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+}
+
+.detalle-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+
+    @include m.tablet {
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+    }
+}
+
+// Imagen del producto
+.detalle-imagen {
+    .imagen-principal {
+        background-color: v.$gris;
+        border-radius: 1.2rem;
+        overflow: hidden;
+        position: relative;
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 4 / 5;
+            transition: transform 0.4s ease;
+        }
+
+        &:hover img {
+            transform: scale(1.03);
+        }
+    }
+}
+
+// Información del producto
+.detalle-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.detalle-categoria {
+    display: inline-block;
+    background-color: color.adjust(v.$secundario, $lightness: -2%);
+    color: v.$primario;
+    font-size: 1.2rem;
+    font-weight: v.$bold;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    padding: .6rem 1.5rem;
+    border-radius: 5rem;
+    width: fit-content;
+}
+
+.detalle-nombre {
+    color: v.$negro;
+    font-size: 2.8rem;
+    font-weight: v.$black;
+    margin: 0;
+    line-height: 1.2;
+    text-align: left;
+
+    @include m.tablet {
+        font-size: 3.4rem;
+    }
+}
+
+.detalle-precio {
+    color: v.$verdeOscuro;
+    font-size: 3rem;
+    font-weight: v.$black;
+    margin: 0;
+
+    @include m.tablet {
+        font-size: 3.6rem;
+    }
+}
+
+.detalle-disponibilidad {
+    .disponible {
+        color: v.$verdeOscuro;
+        font-size: 1.5rem;
+        font-weight: v.$bold;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+
+        i {
+            font-size: 1.6rem;
+        }
+    }
+
+    .no-disponible {
+        color: v.$rojo;
+        font-size: 1.5rem;
+        font-weight: v.$bold;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+
+        i {
+            font-size: 1.6rem;
+        }
+    }
+}
+
+// Talles
+.detalle-talles {
+    .detalle-label {
+        color: v.$negro;
+        font-size: 1.5rem;
+        font-weight: v.$bold;
+        margin: 0 0 1rem;
+    }
+}
+
+.talles-grid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.talle-btn {
+    width: 6rem;
+    height: 5rem;
+    border: 2px solid v.$gris;
+    border-radius: .8rem;
+    background-color: v.$blanco;
+    color: v.$negro;
+    font-size: 1.5rem;
+    font-weight: v.$bold;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all .2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    &:hover:not(.agotado):not(.seleccionado) {
+        border-color: v.$primario;
+        color: v.$primario;
+    }
+
+    &.seleccionado {
+        border-color: v.$primario;
+        background-color: v.$primario;
+        color: v.$blanco;
+    }
+
+    &.agotado {
+        opacity: .4;
+        cursor: not-allowed;
+        text-decoration: line-through;
+    }
+}
+
+.talle-agotado-text {
+    font-size: .9rem;
+    font-weight: v.$regular;
+    line-height: 1;
+}
+
+// Acciones
+.detalle-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+
+    @include m.telefono {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.cantidad-selector {
+    display: flex;
+    align-items: center;
+    border: 2px solid v.$gris;
+    border-radius: .8rem;
+    overflow: hidden;
+    width: fit-content;
+}
+
+.cantidad-btn {
+    width: 4.5rem;
+    height: 4.5rem;
+    border: none;
+    background-color: v.$gris;
+    color: v.$negro;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .2s ease;
+
+    &:hover {
+        background-color: color.adjust(v.$gris, $lightness: -8%);
+    }
+}
+
+.cantidad-input {
+    width: 5rem;
+    height: 4.5rem;
+    border: none;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: v.$bold;
+    font-family: inherit;
+    color: v.$negro;
+    background-color: v.$blanco;
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.boton-agregar {
+    margin: 0 !important;
+    padding: 1.3rem 3rem !important;
+    font-size: 1.6rem !important;
+    flex: 1;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border-radius: .8rem !important;
+
+    &:disabled {
+        opacity: .5;
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: v.$primario;
+        }
+    }
+
+    i {
+        font-size: 1.5rem;
+    }
+}
+
+// Extras / Trust badges
+.detalle-extras {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid v.$gris;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+}
+
+.extra-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+
+    > i {
+        font-size: 2rem;
+        color: v.$primario;
+        margin-top: .2rem;
+        flex-shrink: 0;
+    }
+
+    strong {
+        display: block;
+        color: v.$negro;
+        font-size: 1.5rem;
+        font-weight: v.$bold;
+        margin-bottom: .2rem;
+    }
+
+    p {
+        color: v.$grisOscuro;
+        font-size: 1.3rem;
+        margin: 0;
+    }
+}

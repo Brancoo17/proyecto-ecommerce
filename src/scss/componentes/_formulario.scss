@@ -1,0 +1,111 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.formulario {
+    margin-top: 5rem;
+    width: 100%;
+
+    fieldset {
+        border-color: v.$blanco;
+        margin: 1.5rem;
+    }
+
+    p {
+        font-size: 1.4rem;
+        color: v.$grisOscuro;
+        margin: 2rem;
+    }
+
+    legend {
+        font-size: 2rem;
+        color: v.$blanco;
+    }
+
+    label {
+        font-weight: v.$bold;
+        text-transform: uppercase;
+        display: block;
+        margin: 1rem 0;
+    }
+
+    input:not([type="submit"]),
+    textarea,
+    select {
+        padding: 1rem;
+        display: block;
+        width: 100%;
+        background-color: v.$blanco;
+        color: v.$negro;
+        border: 1px solid v.$gris;
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    textarea {
+        height: 20rem;
+    }
+}
+
+.formulario-login {
+    margin-top: 5rem;
+    width: 100%;
+}
+
+.campo {
+    display: flex;
+    margin-bottom: 2rem;
+    align-items: center;
+
+    label {
+        flex: 0 0 10rem;
+    }
+
+    input {
+        flex: 1;
+        padding: calc(v.$separacion / 4);
+        border: none;
+        border-radius: 1rem;
+
+        &:disabled {
+            background-color: v.$gris;
+            color: v.$negro;
+            cursor: not-allowed;
+        }
+    }
+}
+
+.opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+        gap: 2rem;
+    }
+
+    .boton {
+        flex: 1;
+        margin: 0 !important;
+        padding: 1.2rem 2.5rem;
+        font-size: 1.6rem;
+        background-color: transparent;
+        color: v.$blanco;
+        border: 2px solid v.$primario;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: v.$primario;
+            color: v.$secundario;
+        }
+
+        &.activo {
+            background-color: v.$primario;
+            color: v.$secundario;
+            border-color: v.$primario;
+            font-weight: v.$bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    }
+}

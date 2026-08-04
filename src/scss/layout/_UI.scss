@@ -1,0 +1,427 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+@use 'sass:color';
+
+.header {
+    background-color: v.$secundario;
+    padding: 3rem;
+
+    .header-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+
+        .boton {
+            margin: 0;
+
+            &:hover {
+                color: v.$blanco;
+            }
+        }
+
+        @include m.tablet {
+            flex-direction: row;
+            justify-content: space-around;
+        }
+    }
+
+    .logo {
+        a {
+            text-decoration: none;
+        }
+        h1 {
+            color: v.$primario;
+            margin: 0;
+            font-size: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        span {
+            font-weight: v.$regular;
+            font-size: 2rem;
+        }
+    }
+
+    .nav {
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+
+            @include m.tablet {
+                flex-direction: row;
+                gap: 3rem;
+                margin-right: 10rem;
+            }
+        }
+        
+        a {
+            color: v.$negro;
+            text-decoration: none;
+            font-size: 1.8rem;
+            font-weight: v.$bold;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: v.$primario;
+            }
+        }
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        
+        .cart-icon {
+            color: v.$negro;
+            font-size: 2.5rem;
+            position: relative;
+            cursor: pointer;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: v.$primario;
+            }
+
+            .cart-count {
+                position: absolute;
+                top: -1rem;
+                right: -1.5rem;
+                background-color: v.$primario;
+                color: v.$secundario;
+                font-size: 1.2rem;
+                font-weight: v.$bold;
+                padding: 0.2rem 0.6rem;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+}
+
+.header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.header-sticky.sticky {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.header-sticky.oculto {
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+.hero {
+    background-color: color.adjust(v.$secundario, $lightness: 70%);
+    padding: 5rem 0;
+    text-align: center;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('/build/img/imagen-hero.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: .6;
+        z-index: -1;
+    }
+    
+
+    @include m.tablet {
+        padding: 10rem 0;
+        min-height: 70vh;
+    }
+
+    .hero-content {
+        h2 {
+            color: v.$primario;
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+
+            @include m.tablet {
+                font-size: 5rem;
+            }
+        }
+
+        p {
+            color: v.$negro;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 4rem;
+
+            @include m.tablet {
+                font-size: 2.5rem;
+            }
+        }
+    }
+}
+
+
+// Productos 
+.productos {
+    padding: 5rem 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
+.categorias {
+    width: 95%;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    margin: 2rem auto;
+
+    .boton {
+        margin: 0;
+    }
+    
+    @include m.telefono {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    @include m.desktop {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 2rem;
+    }
+
+    
+}
+
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    margin: 2rem auto;
+    padding: 2rem;
+    
+    
+    @include m.telefono {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    @include m.tablet {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        padding: 4rem;
+    }
+
+    @include m.desktop {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        padding: 4rem;
+    }
+
+    /*
+    .producto {
+        background-color: v.$secundario;
+        color: v.$negro;
+        border: 1px solid v.$primario;
+        border-radius: 1rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        img {
+            border-radius: 1rem;
+        }
+
+        h3 {
+            color: v.$negro;
+            padding: 2rem;
+        }
+        
+        p {
+            color: v.$verdeOscuro;
+            font-weight: v.$bold;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        select {
+            padding: 1rem;
+            display: block;
+            width: 100%;
+            background-color: v.$gris;
+            color: v.$negro;
+            border: 1px solid v.$grisOscuro;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .boton {
+            margin: 2rem 0;
+        }
+    }
+    */
+
+    .producto {
+        position: relative;
+        background-color: v.$blanco;
+        border-radius: 1.2rem;
+        border: 1px solid v.$secundario;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 .4rem 1.5rem rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+            transform: translateY(-.5rem);
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+
+            .producto-imagen img {
+                transform: scale(1.05);
+            }
+        }
+
+        .producto-enlace {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        // Contenedor de la imagen
+        .producto-imagen {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4 / 5;
+
+            img {
+                width: 100%;
+                height: 95%;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.4s ease;
+            }
+
+            &:hover img {
+                transform: scale(1.05);
+            }
+        }
+
+        // Contenido textual de la tarjeta
+        .producto-info {
+            padding: 2rem 2rem 0;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+
+            h3 {
+                color: v.$negro;
+                font-size: 1.8rem;
+                font-weight: v.$bold;
+                margin: 0 0 .5rem;
+                line-height: 1.3;
+            }
+
+            .producto-precio {
+                color: v.$verdeOscuro;
+                font-weight: v.$black;
+                font-size: 2.2rem;
+                margin: .5rem 0 1.5rem;
+            }
+
+            select {
+                position: relative;
+                z-index: 2;
+                padding: 1rem 1.2rem;
+                width: 100%;
+                background-color: v.$gris;
+                color: v.$negro;
+                border: 1px solid color.adjust(v.$gris, $lightness: -10%);
+                border-radius: .8rem;
+                font-size: 1.4rem;
+                font-family: inherit;
+                cursor: pointer;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235b5b5b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 1.2rem center;
+                transition: border-color 0.2s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: v.$primario;
+                }
+            }
+        }
+
+        // Botones de acción
+        .acciones-producto {
+            position: relative;
+            z-index: 2;
+            padding: 1.5rem 2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: .8rem;
+
+            .boton {
+                margin: 0;
+                padding: 1rem;
+                font-size: 1.4rem;
+                border-radius: .8rem;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: .6rem;
+
+                i {
+                    font-size: 1.3rem;
+                }
+            }
+        }
+    }
+    
+}
+
+// Footer
+.footer {
+    background-color: v.$secundario;
+    padding: 2rem;
+    text-align: center;
+    p {
+        color: v.$primario;
+        font-size: 1.8rem;
+        font-weight: v.$regular;
+    }
+    
+}

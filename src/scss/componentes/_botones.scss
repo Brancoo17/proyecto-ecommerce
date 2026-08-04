@@ -1,0 +1,19 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
+
+.boton-primario {
+    @include boton($primario, $secundario);
+}
+
+.boton-secundario {
+    @include boton($secundario, $primario);
+    display: inline-block;
+}
+
+.boton-amarillo {
+    @include boton($amarillo, $negro);
+}
+
+.boton-rojo {
+    @include boton($rojo, $blanco);
+}

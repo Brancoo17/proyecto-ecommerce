@@ -1,0 +1,251 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+@use 'sass:color';
+
+// Backdrop overlay for the cart
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    &.abierto {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+// Side panel cart drawer
+.cart-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 45rem;
+    height: 100%;
+    background-color: v.$blanco;
+    z-index: 1001;
+    box-shadow: -0.5rem 0 2rem rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &.abierto {
+        transform: translateX(0);
+    }
+}
+
+// Header
+.cart-header {
+    padding: 2.5rem;
+    border-bottom: 1px solid v.$gris;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+        margin: 0;
+        font-size: 2.2rem;
+        color: v.$negro;
+        font-weight: v.$black;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        
+        i {
+            color: v.$primario;
+        }
+    }
+
+    .btn-cerrar-cart {
+        background: none;
+        border: none;
+        font-size: 2.2rem;
+        color: v.$grisOscuro;
+        cursor: pointer;
+        transition: color 0.2s ease, transform 0.2s ease;
+
+        &:hover {
+            color: v.$rojo;
+            transform: scale(1.1);
+        }
+    }
+}
+
+// Items list (scrollable)
+.cart-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+        width: 0.6rem;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: color.adjust(v.$gris, $lightness: -15%);
+        border-radius: 1rem;
+    }
+}
+
+// Empty state
+.cart-vacio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: v.$grisOscuro;
+    gap: 1.5rem;
+    text-align: center;
+    padding: 4rem 2rem;
+
+    i {
+        font-size: 6rem;
+        color: v.$gris;
+    }
+
+    p {
+        font-size: 1.6rem;
+        color: v.$grisOscuro;
+        margin: 0;
+    }
+}
+
+// Cart Item Card
+.cart-item {
+    display: flex;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid v.$gris;
+    position: relative;
+}
+
+.cart-item-imagen {
+    width: 8rem;
+    height: 10rem;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    background-color: v.$gris;
+    flex-shrink: 0;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.cart-item-detalles {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    h3 {
+        font-size: 1.6rem;
+        color: v.$negro;
+        font-weight: v.$bold;
+        margin: 0;
+        text-align: left;
+        line-height: 1.3;
+        padding-right: 2.5rem; // Space for delete button
+    }
+}
+
+.cart-item-meta {
+    font-size: 1.3rem;
+    color: v.$grisOscuro;
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 1.5rem;
+
+    span {
+        strong {
+            color: v.$negro;
+        }
+    }
+}
+
+.cart-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.cart-item-precio-total {
+    font-size: 1.6rem;
+    font-weight: v.$black;
+    color: v.$verdeOscuro;
+}
+
+.btn-eliminar-item {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    color: v.$grisOscuro;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+        color: v.$rojo;
+        transform: scale(1.15);
+    }
+}
+
+// Cart Footer
+.cart-footer {
+    padding: 2.5rem;
+    border-top: 1px solid v.$gris;
+    background-color: color.adjust(v.$gris, $lightness: 8%);
+}
+
+.cart-totales {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    span {
+        font-size: 1.8rem;
+        font-weight: v.$bold;
+        color: v.$negro;
+    }
+
+    .cart-precio-final {
+        font-size: 2.2rem;
+        font-weight: v.$black;
+        color: v.$verdeOscuro;
+    }
+}
+
+.btn-checkout {
+    margin: 0 !important;
+    width: 100%;
+    padding: 1.5rem 3rem !important;
+    font-size: 1.6rem !important;
+    text-align: center;
+    border-radius: 0.8rem !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(12, 78, 104, 0.2);
+}

@@ -1,0 +1,254 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+@use 'sass:color';
+
+.checkout-contenedor {
+    max-width: 90rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+}
+
+.checkout-contenido {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.checkout-resumen,
+.checkout-form-seccion {
+    background-color: v.$blanco;
+    border-radius: 1.2rem;
+    border: 1px solid v.$gris;
+    padding: 2.5rem;
+    box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.05);
+
+    @include m.tablet {
+        padding: 3.5rem;
+    }
+}
+
+.checkout-subtitulo {
+    font-size: 2.2rem;
+    font-weight: v.$bold;
+    color: v.$primario;
+    margin-top: 0;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 2px solid v.$secundario;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    i {
+        color: v.$primario;
+    }
+}
+
+/* Tabla del resumen de productos */
+.tabla-resumen-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 2rem;
+    border-radius: 0.8rem;
+    border: 1px solid v.$gris;
+}
+
+.tabla-resumen {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 1.5rem;
+
+    th {
+        background-color: color.adjust(v.$secundario, $lightness: 12%);
+        color: v.$primario;
+        font-weight: v.$bold;
+        padding: 1.4rem 1.6rem;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid color.adjust(v.$secundario, $lightness: -5%);
+
+        &:last-child {
+            text-align: right;
+        }
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(4) {
+            text-align: center;
+        }
+    }
+
+    td {
+        padding: 1.6rem;
+        border-bottom: 1px solid v.$gris;
+        color: v.$negro;
+        vertical-align: middle;
+
+        &:last-child {
+            text-align: right;
+        }
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(4) {
+            text-align: center;
+        }
+    }
+
+    tbody tr {
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: color.adjust(v.$gris, $lightness: 10%);
+        }
+
+        &:last-child td {
+            border-bottom: none;
+        }
+    }
+}
+
+.producto-nombre {
+    font-weight: v.$bold;
+    color: v.$negro;
+    display: block;
+}
+
+.badge-talle {
+    display: inline-block;
+    background-color: color.adjust(v.$gris, $lightness: 5%);
+    color: v.$primario;
+    font-weight: v.$bold;
+    padding: 0.4rem 1rem;
+    border-radius: 0.6rem;
+    font-size: 1.3rem;
+    border: 1px solid v.$gris;
+}
+
+.precio-subtotal {
+    font-weight: v.$bold;
+    color: v.$verdeOscuro;
+}
+
+/* Box de Total */
+.checkout-total-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: color.adjust(v.$secundario, $lightness: 12%);
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    border: 1px solid color.adjust(v.$secundario, $lightness: -5%);
+
+    .total-label {
+        font-size: 1.8rem;
+        font-weight: v.$bold;
+        color: v.$negro;
+    }
+
+    .total-monto {
+        font-size: 2.6rem;
+        font-weight: v.$black;
+        color: v.$verdeOscuro;
+    }
+}
+
+/* Formulario chico del comprador */
+.checkout-formulario {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .campo-grupo {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+
+        label {
+            font-size: 1.4rem;
+            font-weight: v.$bold;
+            color: v.$negro;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+    }
+
+    .input-icono {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        i {
+            position: absolute;
+            left: 1.5rem;
+            color: v.$grisOscuro;
+            font-size: 1.6rem;
+            pointer-events: none;
+            transition: color 0.2s ease;
+        }
+
+        input {
+            width: 100%;
+            padding: 1.4rem 1.5rem 1.4rem 4.5rem !important;
+            border: 1px solid v.$gris !important;
+            border-radius: 0.8rem !important;
+            font-size: 1.6rem;
+            font-family: inherit;
+            color: v.$negro;
+            background-color: v.$blanco;
+            margin-bottom: 0 !important;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+            &:focus {
+                outline: none;
+                border-color: v.$primario !important;
+                box-shadow: 0 0 0 3px rgba(12, 78, 104, 0.15);
+            }
+
+            &:focus + i,
+            &:focus ~ i {
+                color: v.$primario;
+            }
+        }
+    }
+}
+
+.checkout-acciones {
+    margin-top: 1rem;
+}
+
+.boton-whatsapp {
+    width: 100%;
+    background-color: #25D366;
+    color: v.$blanco;
+    border: none;
+    padding: 1.6rem 2.5rem;
+    font-size: 1.8rem;
+    font-weight: v.$bold;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    box-shadow: 0 0.4rem 1.2rem rgba(37, 211, 102, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+
+    i {
+        font-size: 2.4rem;
+    }
+
+    &:hover {
+        background-color: #1EBE5D;
+        transform: translateY(-2px);
+        box-shadow: 0 0.6rem 1.8rem rgba(37, 211, 102, 0.4);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
