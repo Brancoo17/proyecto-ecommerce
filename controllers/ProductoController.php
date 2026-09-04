@@ -26,9 +26,10 @@ class ProductoController {
             // Setear la imagen
             // Realiza un resize a la imagen con intervention
             $imagen = null;
-            if($_FILES['producto']['tmp_name']['imagen']) {
+            if(!empty($_FILES['producto']['tmp_name']['imagen']) && is_uploaded_file($_FILES['producto']['tmp_name']['imagen'])) {
                 $manager = new Image(Driver::class);
-                $imagen = $manager->decode($_FILES['producto']['tmp_name']['imagen'])->cover(800, 600);
+                $contenidoImagen = file_get_contents($_FILES['producto']['tmp_name']['imagen']);
+                $imagen = $manager->decode($contenidoImagen)->cover(800, 600);
                 $producto->setImagen($nombreImagen);
             }
 
@@ -107,9 +108,10 @@ class ProductoController {
             $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
             $imagen = null;
 
-            if($_FILES['producto']['tmp_name']['imagen']) {
+            if(!empty($_FILES['producto']['tmp_name']['imagen']) && is_uploaded_file($_FILES['producto']['tmp_name']['imagen'])) {
                 $manager = new Image(Driver::class);
-                $imagen = $manager->decode($_FILES['producto']['tmp_name']['imagen'])->cover(800, 600);
+                $contenidoImagen = file_get_contents($_FILES['producto']['tmp_name']['imagen']);
+                $imagen = $manager->decode($contenidoImagen)->cover(800, 600);
                 $producto->setImagen($nombreImagen);
             }
 
