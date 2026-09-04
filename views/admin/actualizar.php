@@ -1,13 +1,6 @@
-<!-- Header -->
-<header class="header">
-    <div class="container">
-        <div class="header-content">
-            <div class="logo">
-                <a href="/"><h1><i class="fas fa-dumbbell"></i> Riada <span>Indumentaria</span></h1></a>
-            </div>
-        </div>
-    </div>
-</header>
+<?php
+    include_once __DIR__ . '/../templates/header.php';
+?>
 
 <main class="contenedor">
 

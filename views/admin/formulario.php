@@ -49,6 +49,14 @@
         <img src="/imagenes/<?php echo $producto->imagen; ?>" alt="Imagen del Producto" class="imagen-small">
     <?php endif; ?>
 
+    <div class="campo-destacado" style="margin: 2rem 0; display: flex; align-items: center; gap: 1.2rem; background: rgba(248, 223, 177, 0.25); padding: 1.2rem 1.6rem; border-radius: 1rem; border: 1px solid #f8dfb1;">
+        <input type="hidden" name="producto[destacado]" value="0">
+        <input type="checkbox" id="destacado" name="producto[destacado]" value="1" <?php echo ($producto->destacado == 1) ? 'checked' : ''; ?> style="width: 2rem; height: 2rem; margin: 0; cursor: pointer;">
+        <label for="destacado" style="margin: 0; cursor: pointer; font-weight: 700; color: #000000ff; font-size: 1.5rem;">
+            <i class="fas fa-star" style="color: #f59e0b;"></i> Producto Destacado (se mostrará en la Home Page)
+        </label>
+    </div>
+
 </fieldset>
 
 <fieldset>

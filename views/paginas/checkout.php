@@ -4,30 +4,9 @@
     }
     $carrito = $carrito ?? $_SESSION['carrito'] ?? [];
     $total = $total ?? 0;
-?>
 
-<!-- Header -->
-<header class="header">
-    <div class="container">
-        <div class="header-content">
-            <div class="logo">
-                <a href="/"><h1><i class="fas fa-dumbbell"></i> Riada <span>Indumentaria</span></h1></a>
-            </div>
-            <nav class="nav">
-                <ul>
-                    <li><a href="/"><i class="fas fa-home"></i>Inicio</a></li>
-                    <li><a href="https://www.instagram.com/riada_indumentaria/" target="_blank"><i class="fab fa-instagram"></i>Instagram</a></li>
-                </ul>
-            </nav>
-            <div class="header-actions">
-                <div class="cart-icon" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="cartCount">0</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+    include_once __DIR__ . '/../templates/header.php';
+?>
 
 <main class="contenedor seccion checkout-contenedor">
     <div class="alinear-izquierda w-100 mb-2">
@@ -114,9 +93,6 @@
     </div>
 </main>
 
-<!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <p>&copy; 2026 Riada Indumentaria. Todos los derechos reservados.</p>
-    </div>
-</footer>
+<?php
+    include_once __DIR__ . '/../templates/footer.php';
+?>

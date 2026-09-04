@@ -182,4 +182,36 @@ class ProductoController {
             }
         }
     }
+
+    public static function cambiarDestacado() {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if(!isset($_SESSION)) session_start();
+            if(!isset($_SESSION['admin']) || !$_SESSION['admin']) {
+                echo json_encode(['ok' => false, 'mensaje' => 'No autorizado']);
+                return;
+            }
+
+            $datos = json_decode(file_get_contents('php://input'), true);
+            $id = filter_var($datos['id'] ?? null, FILTER_VALIDATE_INT);
+
+            if(!$id) {
+                echo json_encode(['ok' => false, 'mensaje' => 'ID no válido']);
+                return;
+            }
+
+            $producto = Producto::find($id);
+            if(!$producto) {
+                echo json_encode(['ok' => false, 'mensaje' => 'Producto no encontrado']);
+                return;
+            }
+
+            $producto->destacado = ($producto->destacado == 1) ? 0 : 1;
+            $resultado = $producto->guardar();
+
+            echo json_encode([
+                'ok' => (bool)$resultado,
+                'destacado' => $producto->destacado
+            ]);
+        }
+    }
 }

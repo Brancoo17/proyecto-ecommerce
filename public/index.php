@@ -12,6 +12,7 @@ use Controllers\PedidoController;
 $router = new Router();
 
 $router->get('/', [PaginasController::class, 'index']);
+$router->get('/productos', [PaginasController::class, 'productos']);
 $router->get('/producto', [PaginasController::class, 'producto']);
 $router->get('/checkout', [PaginasController::class, 'checkout']);
 
@@ -24,6 +25,7 @@ $router->get('/logout', [LoginController::class, 'logout']);
 // API Pedidos
 $router->post('/api/pedidos', [PedidoController::class, 'crear']);
 $router->post('/api/pedidos/estado', [PedidoController::class, 'cambiarEstado']);
+$router->post('/api/productos/destacado', [ProductoController::class, 'cambiarDestacado']);
 
 
 // CRUD

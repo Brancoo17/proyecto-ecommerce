@@ -67,10 +67,13 @@ const TALLES_NOMBRES = {
 };
 
 function iniciarApp() {
+    iniciarMenuMobile();
     seleccionarTalles();
     configurarProductoDetalle();
     inicializarCarrito();
     cargarCheckoutPage();
+    iniciarCatalogoPage();
+    iniciarAdminTabsYBuscador();
 }
 
 /**
@@ -725,22 +728,178 @@ function enviarPorWhatsApp() {
 }
 
 /**
- * Filtra los productos visibles según la categoría seleccionada
+ * Filtra los productos visibles en la Home según la categoría seleccionada
  * @param {string|number} categoria - ID de la categoría o 'todos'
+ * @param {HTMLElement|null} boton - Elemento botón clickeado
 */
-function filtrarProductos(categoria) {
-    // 1. Obtener todas las tarjetas de producto
-    const productos = document.querySelectorAll('.grid-productos .producto');
+function filtrarProductos(categoria, boton = null) {
+    if (boton) {
+        const tabs = document.querySelectorAll('.categorias-tabs-home .tab-home');
+        tabs.forEach(t => t.classList.remove('activo'));
+        boton.classList.add('activo');
+    }
 
-    // 2. Recorrer cada producto y comparar la categoría
+    const productos = document.querySelectorAll('.seccion-destacados .grid-productos .producto, .productos .grid-productos .producto');
+
     productos.forEach(producto => {
         const categoriaProducto = producto.dataset.categoria;
-
-        // Si la categoría seleccionada es 'todos' o coincide con la del producto (comparación flexible ==)
         if (categoria === 'todos' || categoriaProducto == categoria) {
-            producto.style.display = ''; // Muestra el producto respetando el CSS original
+            producto.style.display = '';
         } else {
-            producto.style.display = 'none'; // Oculta el producto
+            producto.style.display = 'none';
+        }
+    });
+}
+
+/**
+ * -------------------------------------------------------------
+ * SISTEMA DEL CATÁLOGO (/productos): FILTROS, BUSCADOR Y ORDEN
+ * -------------------------------------------------------------
+ */
+let categoriaCatalogoSeleccionada = 'todos';
+
+function iniciarCatalogoPage() {
+    const grid = document.querySelector('#gridCatalogo');
+    if (!grid) return;
+
+    const buscador = document.querySelector('#buscadorProductos');
+    const btnLimpiar = document.querySelector('#btnLimpiarBuscador');
+
+    if (buscador) {
+        buscador.addEventListener('input', () => {
+            if (btnLimpiar) {
+                btnLimpiar.style.display = buscador.value.trim() !== '' ? 'block' : 'none';
+            }
+            aplicarFiltrosCatalogo();
+        });
+    }
+
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener('click', () => {
+            if (buscador) {
+                buscador.value = '';
+                btnLimpiar.style.display = 'none';
+                aplicarFiltrosCatalogo();
+            }
+        });
+    }
+
+    // Comprobar parámetros de la URL para preseleccionar categoría (ej: /productos?categoria=1)
+    const urlParams = new URLSearchParams(window.location.search);
+    const catParam = urlParams.get('categoria');
+    if (catParam) {
+        filtrarProductosCatalogo(catParam);
+    }
+}
+
+function filtrarProductosCatalogo(categoria) {
+    categoriaCatalogoSeleccionada = categoria;
+
+    // Actualizar clase activa en los botones de categoría
+    const tabs = document.querySelectorAll('.categorias-tabs .tab-categoria');
+    tabs.forEach(tab => {
+        if (tab.dataset.categoria == categoria) {
+            tab.classList.add('activo');
+        } else {
+            tab.classList.remove('activo');
+        }
+    });
+
+    aplicarFiltrosCatalogo();
+}
+
+function aplicarFiltrosCatalogo() {
+    const grid = document.querySelector('#gridCatalogo');
+    if (!grid) return;
+
+    const productos = grid.querySelectorAll('.producto');
+    const inputBuscador = document.querySelector('#buscadorProductos');
+    const query = inputBuscador ? inputBuscador.value.toLowerCase().trim() : '';
+
+    let productosVisibles = 0;
+
+    productos.forEach(producto => {
+        const categoriaProducto = producto.dataset.categoria;
+        const nombreProducto = (producto.dataset.nombre || '').toLowerCase();
+
+        const coincideCategoria = (categoriaCatalogoSeleccionada === 'todos' || categoriaProducto == categoriaCatalogoSeleccionada);
+        const coincideBusqueda = (query === '' || nombreProducto.includes(query));
+
+        if (coincideCategoria && coincideBusqueda) {
+            producto.style.display = '';
+            productosVisibles++;
+        } else {
+            producto.style.display = 'none';
+        }
+    });
+
+    // Actualizar contador
+    const contador = document.querySelector('#contadorProductos');
+    if (contador) {
+        contador.textContent = `Mostrando ${productosVisibles} ${productosVisibles === 1 ? 'producto' : 'productos'}`;
+    }
+
+    // Mensaje de sin resultados
+    const sinResultados = document.querySelector('#sinResultados');
+    if (sinResultados) {
+        sinResultados.style.display = productosVisibles === 0 ? 'block' : 'none';
+    }
+}
+
+function ordenarProductosLista(criterio) {
+    const grid = document.querySelector('#gridCatalogo');
+    if (!grid) return;
+
+    const productos = Array.from(grid.querySelectorAll('.producto'));
+
+    productos.sort((a, b) => {
+        const precioA = parseFloat(a.dataset.precio) || 0;
+        const precioB = parseFloat(b.dataset.precio) || 0;
+        const nombreA = (a.dataset.nombre || '').toLowerCase();
+        const nombreB = (b.dataset.nombre || '').toLowerCase();
+        const idA = parseInt(a.dataset.id) || 0;
+        const idB = parseInt(b.dataset.id) || 0;
+
+        if (criterio === 'precio-menor') {
+            return precioA - precioB;
+        } else if (criterio === 'precio-mayor') {
+            return precioB - precioA;
+        } else if (criterio === 'nombre-az') {
+            return nombreA.localeCompare(nombreB);
+        } else {
+            return idA - idB;
+        }
+    });
+
+    productos.forEach(p => grid.appendChild(p));
+}
+
+function resetearFiltros() {
+    const buscador = document.querySelector('#buscadorProductos');
+    const btnLimpiar = document.querySelector('#btnLimpiarBuscador');
+    if (buscador) buscador.value = '';
+    if (btnLimpiar) btnLimpiar.style.display = 'none';
+    filtrarProductosCatalogo('todos');
+}
+
+/**
+ * Control del menú responsive en móviles
+ */
+function toggleMenuMobile() {
+    const nav = document.querySelector('#mainNav');
+    if (nav) {
+        nav.classList.toggle('menu-abierto');
+    }
+}
+
+function iniciarMenuMobile() {
+    document.addEventListener('click', (e) => {
+        const nav = document.querySelector('#mainNav');
+        const btn = document.querySelector('#mobileToggleBtn');
+        if (!nav || !btn) return;
+
+        if (!nav.contains(e.target) && !btn.contains(e.target) && nav.classList.contains('menu-abierto')) {
+            nav.classList.remove('menu-abierto');
         }
     });
 }
@@ -823,14 +982,137 @@ async function guardarEstadoPedido() {
 
 
 // Vincular funciones globalmente
+/**
+ * Control de pestañas y buscador en tiempo real para el Panel de Admin
+ */
+function cambiarTabAdmin(tab) {
+    const btnProductos = document.querySelector('#tabBtnProductos');
+    const btnPedidos = document.querySelector('#tabBtnPedidos');
+    const panelProductos = document.querySelector('#panelProductos');
+    const panelPedidos = document.querySelector('#panelPedidos');
+
+    if (!panelProductos || !panelPedidos) return;
+
+    if (tab === 'pedidos') {
+        panelProductos.style.display = 'none';
+        panelPedidos.style.display = 'block';
+        if (btnProductos) btnProductos.classList.remove('activo');
+        if (btnPedidos) btnPedidos.classList.add('activo');
+        window.location.hash = 'pedidos';
+    } else {
+        panelProductos.style.display = 'block';
+        panelPedidos.style.display = 'none';
+        if (btnProductos) btnProductos.classList.add('activo');
+        if (btnPedidos) btnPedidos.classList.remove('activo');
+        window.location.hash = 'productos';
+    }
+}
+
+function iniciarAdminTabsYBuscador() {
+    // 1. Revisar hash en la URL (ej: #pedidos)
+    if (window.location.hash === '#pedidos') {
+        cambiarTabAdmin('pedidos');
+    }
+
+    // 2. Buscador en tiempo real de productos en Admin
+    const buscador = document.querySelector('#buscadorAdminProductos');
+    const btnLimpiar = document.querySelector('#btnLimpiarBuscadorAdmin');
+    const tabla = document.querySelector('#tablaProductosAdmin');
+    const contador = document.querySelector('#contadorProductosAdmin');
+    const filaSinResultados = document.querySelector('#filaSinResultadosAdmin');
+
+    if (buscador && tabla) {
+        const filas = tabla.querySelectorAll('tbody tr.fila-producto-admin');
+
+        const filtrarTabla = () => {
+            const query = buscador.value.toLowerCase().trim();
+            let visibles = 0;
+
+            if (btnLimpiar) {
+                btnLimpiar.style.display = query !== '' ? 'block' : 'none';
+            }
+
+            filas.forEach(fila => {
+                const id = fila.dataset.id || '';
+                const nombre = fila.dataset.nombre || '';
+                const categoria = fila.querySelector('.col-categoria') ? fila.querySelector('.col-categoria').textContent.toLowerCase() : '';
+
+                if (query === '' || id.includes(query) || nombre.includes(query) || categoria.includes(query)) {
+                    fila.style.display = '';
+                    visibles++;
+                } else {
+                    fila.style.display = 'none';
+                }
+            });
+
+            if (contador) {
+                contador.textContent = `Mostrando ${visibles} ${visibles === 1 ? 'producto' : 'productos'}`;
+            }
+
+            if (filaSinResultados) {
+                filaSinResultados.style.display = visibles === 0 ? '' : 'none';
+            }
+        };
+
+        buscador.addEventListener('input', filtrarTabla);
+
+        if (btnLimpiar) {
+            btnLimpiar.addEventListener('click', () => {
+                buscador.value = '';
+                btnLimpiar.style.display = 'none';
+                filtrarTabla();
+            });
+        }
+    }
+}
+
+/**
+ * Alterna el estado destacado de un producto en el Panel de Admin vía API
+ */
+async function toggleDestacadoProducto(id) {
+    const boton = document.querySelector(`#btn-destacado-${id}`);
+    if (!boton) return;
+
+    try {
+        const respuesta = await fetch('/api/productos/destacado', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: parseInt(id) })
+        });
+
+        const resultado = await respuesta.json();
+        if (resultado.ok) {
+            const esDestacado = resultado.destacado === 1;
+            boton.classList.toggle('activo', esDestacado);
+            boton.innerHTML = esDestacado 
+                ? '<i class="fas fa-star"></i> <span>Destacado</span>' 
+                : '<i class="far fa-star"></i> <span>Normal</span>';
+            boton.title = esDestacado ? 'Quitar de destacados en la Home' : 'Marcar como destacado en la Home';
+            mostrarToast(esDestacado ? '⭐ Producto marcado como destacado en la Home' : 'Producto quitado de destacados', 'exito');
+        } else {
+            mostrarToast(resultado.mensaje || 'No se pudo actualizar', 'error');
+        }
+    } catch (e) {
+        mostrarToast('Error de conexión', 'error');
+    }
+}
+
+// Vincular funciones globalmente
 window.abrirModalEstado = abrirModalEstado;
 window.cerrarModalEstado = cerrarModalEstado;
 window.guardarEstadoPedido = guardarEstadoPedido;
-
+window.cambiarTabAdmin = cambiarTabAdmin;
+window.toggleDestacadoProducto = toggleDestacadoProducto;
 
 // Vincular globalmente para llamadas en HTML
 window.toggleCart = toggleCart;
 window.filtrarProductos = filtrarProductos;
 window.enviarPorWhatsApp = enviarPorWhatsApp;
+window.toggleMenuMobile = toggleMenuMobile;
+window.filtrarProductosCatalogo = filtrarProductosCatalogo;
+window.ordenarProductosLista = ordenarProductosLista;
+window.resetearFiltros = resetearFiltros;
+
+
 
 

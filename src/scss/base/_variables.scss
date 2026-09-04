@@ -5,26 +5,37 @@ $fuente_principal: 'Poppins', sans-serif;
 $telefono: 480px;
 $tablet: 768px;
 $desktop: 1024px;
+$desktopXL: 1280px;
 
-// Colores
+// Colores Principales
 $primario: #0c4e68;
+$primarioOscuro: #08374a;
+$primarioClaro: #146c8f;
 $secundario: #f8dfb1;
+$secundarioClaro: #fff9ee;
 
 $azul: #0da6f3;
-$rojo: #dd1d1d;
-$verde:#51c41c;
+$rojo: #e53935;
+$verde: #51c41c;
 $verdeOscuro: #0a6320;
-$negro: #1a1b15;
-$amarillo: #e7a600;
+$negro: #111827;
+$amarillo: #f59e0b;
 
 $blanco: #FFFFFF;
-$gris: #e1e1e1;
-$grisOscuro: #5b5b5b;
+$grisClaro: #f8fafc;
+$gris: #e2e8f0;
+$grisMedio: #94a3b8;
+$grisOscuro: #475569;
+
+// Sombras modernas
+$sombra-suave: 0 4px 20px rgba(0, 0, 0, 0.05);
+$sombra-tarjeta: 0 10px 30px rgba(12, 78, 104, 0.08);
+$sombra-elevada: 0 20px 40px rgba(12, 78, 104, 0.15);
 
 $separacion: 5rem;
 
-// Fuentes
+// Pesos de Fuentes
 $delgada: 300;
 $regular : 400;
 $bold: 700;
-$black: 900
+$black: 900;

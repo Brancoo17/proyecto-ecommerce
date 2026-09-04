@@ -11,7 +11,13 @@ use Model\Pedido;
 class PaginasController {
     public static function index(Router $router) {
 
-        $productos = Producto::all();
+        $todosProductos = Producto::all();
+        // Mostrar los productos marcados como destacados por el administrador
+        $productosDestacados = Producto::whereAll('destacado', 1);
+        if(empty($productosDestacados)) {
+            $productosDestacados = array_slice($todosProductos, 0, 6);
+        }
+
         $productoTalles = ProductoTalle::all();
         $stockMap = [];
         foreach($productoTalles as $pt) {
@@ -19,8 +25,26 @@ class PaginasController {
         }
 
         $router->render('paginas/index', [
-            'productos' => $productos,
+            'productos' => $productosDestacados,
+            'totalProductos' => count($todosProductos),
             'stockMap' => $stockMap
+        ]);
+    }
+
+    public static function productos(Router $router) {
+        $productos = Producto::all();
+        $productoTalles = ProductoTalle::all();
+        $stockMap = [];
+        foreach($productoTalles as $pt) {
+            $stockMap[$pt->producto_id][$pt->talle_id] = intval($pt->stock);
+        }
+
+        $categoriaActiva = $_GET['categoria'] ?? 'todos';
+
+        $router->render('paginas/productos', [
+            'productos' => $productos,
+            'stockMap' => $stockMap,
+            'categoriaActiva' => $categoriaActiva
         ]);
     }
 

@@ -339,7 +339,7 @@ td.columna-estado {
     letter-spacing: 0.5px;
     background-color: #64748b; // Color neutro base
 
-    // Colores específicos por estado
+// Colores específicos por estado
     &.badge-pendiente { 
         background-color: #f59e0b !important; // Naranja / Ámbar
     }
@@ -353,6 +353,192 @@ td.columna-estado {
         background-color: #ef4444 !important; // Rojo
     }
 }
+
+// Tabs del Panel de Administración
+.admin-tabs {
+    display: flex;
+    gap: 1rem;
+    margin: 3rem 0 2.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.2rem;
+    overflow-x: auto;
+
+    .tab-admin {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 3px solid transparent;
+        color: $blanco;
+        font-size: 1.6rem;
+        font-weight: $bold;
+        padding: 1.2rem 2.2rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        border-radius: 0.8rem 0.8rem 0 0;
+        transition: all 0.25s ease;
+        white-space: nowrap;
+
+        i {
+            font-size: 1.5rem;
+            color: $blanco;
+        }
+
+        &:hover {
+            color: $blanco;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.35);
+
+            i {
+                color: $blanco;
+            }
+        }
+
+        &.activo {
+            color: $blanco;
+            border-bottom-color: $secundario;
+            background-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+            i {
+                color: $secundario;
+            }
+        }
+    }
+}
+
+// Cabecera con buscador para la tabla de productos de admin
+.admin-productos-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2.5rem 0 1.5rem;
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .boton {
+        margin: 0;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .buscador-caja {
+        position: relative;
+        flex-grow: 1;
+        max-width: 48rem;
+        width: 100%;
+
+        .buscador-icono {
+            position: absolute;
+            top: 50%;
+            left: 1.6rem;
+            transform: translateY(-50%);
+            color: $grisMedio;
+            font-size: 1.6rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1.2rem 4rem 1.2rem 4.5rem;
+            background-color: $blanco;
+            border: 1px solid $gris;
+            border-radius: 1.2rem;
+            font-size: 1.45rem;
+            font-family: inherit;
+            color: $negro;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $primario;
+                box-shadow: 0 0 0 3px rgba(12, 78, 104, 0.12);
+            }
+        }
+
+        .btn-limpiar-busqueda {
+            position: absolute;
+            top: 50%;
+            right: 1.2rem;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: $grisMedio;
+            cursor: pointer;
+            font-size: 1.6rem;
+            padding: 0.4rem;
+
+            &:hover {
+                color: $negro;
+            }
+        }
+    }
+}
+
+.contador-admin {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: $blanco;
+    margin: 0.5rem 0 1.5rem;
+}
+
+#panelPedidos h2 {
+    color: $blanco;
+}
+
+// Botón para alternar producto destacado
+.btn-toggle-destacado {
+    background-color: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #64748b;
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+
+    i {
+        font-size: 1.3rem;
+        color: #94a3b8;
+    }
+
+    &:hover {
+        background-color: rgba(245, 158, 11, 0.12);
+        color: #b45309;
+        border-color: rgba(245, 158, 11, 0.4);
+
+        i {
+            color: #f59e0b;
+        }
+    }
+
+    &.activo {
+        background-color: rgba(245, 158, 11, 0.18);
+        border-color: #f59e0b;
+        color: #92400e;
+
+        i {
+            color: #f59e0b;
+        }
+
+        &:hover {
+            background-color: rgba(245, 158, 11, 0.28);
+        }
+    }
+}
+
+
 
 
 

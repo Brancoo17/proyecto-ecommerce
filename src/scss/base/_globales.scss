@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 html {
     font-size: 62.5%;
@@ -9,21 +10,39 @@ body {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: v.$negro;
-    color: v.$blanco;
+    background-color: v.$primarioClaro;
+    color: v.$negro;
+    font-family: v.$fuente_principal;
+    font-size: 1.6rem;
 }
 *, *:before, *:after {
     box-sizing: inherit;
 }
-body {
-    font-family: v.$fuente_principal;
-    font-size: 1.6rem;
-}
-.contenedor {
+
+// Contenedores globales con márgenes laterales amplios y centrados
+.container, .contenedor {
     width: 95%;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    @include m.tablet {
+        width: 94%;
+        max-width: 1140px;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
+
+    @include m.desktop {
+        width: 90%;
+        max-width: 1120px;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
 }
+
 a {
     text-decoration: none;
 }

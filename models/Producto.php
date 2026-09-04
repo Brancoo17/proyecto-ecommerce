@@ -5,13 +5,14 @@ namespace Model;
 class Producto extends ActiveRecord {
 
     protected static string $tabla = 'productos';
-    protected static array $columnasDB = ['id', 'categoria_id', 'nombre', 'precio', 'imagen'];
+    protected static array $columnasDB = ['id', 'categoria_id', 'nombre', 'precio', 'imagen', 'destacado'];
 
     public ?int $id;
     public ?int $categoria_id;
     public string $nombre;
     public string $precio;
     public string $imagen;
+    public ?int $destacado;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
@@ -19,6 +20,7 @@ class Producto extends ActiveRecord {
         $this->nombre = $args['nombre'] ?? '';
         $this->precio = $args['precio'] ?? '';
         $this->imagen = $args['imagen'] ?? '';
+        $this->destacado = isset($args['destacado']) ? intval($args['destacado']) : 0;
     }
 
     public function validarProducto() {
