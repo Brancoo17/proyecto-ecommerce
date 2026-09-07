@@ -1,17 +1,196 @@
 @use '../base/variables' as *;
 @use 'sass:color';
 
-/* Estilos de las Tablas del Panel de Administración (Estilo Checkout) */
-table.tabla-productos {
-    margin-top: 3rem;
-    margin-bottom: 6rem;
+/* Tarjetas de Estadísticas del Admin (KPIs) */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+    margin: 2.5rem 0 3.5rem;
+
+    @media (min-width: 580px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 992px) {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+}
+
+.admin-stat-card {
+    background: $blanco;
+    border-radius: 1.6rem;
+    padding: 2.2rem 2.4rem;
+    border: 1px solid $gris;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: transparent;
+        transition: background-color 0.3s ease;
+    }
+
+    &.card-productos::before { background: #0da6f3; }
+    &.card-pendientes::before { background: #f59e0b; }
+    &.card-completados::before { background: #10b981; }
+    &.card-ingresos::before { background: #8b5cf6; }
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(12, 78, 104, 0.15);
+        border-color: color.adjust($gris, $lightness: -10%);
+    }
+
+    .stat-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.2rem;
+    }
+
+    .stat-card-titulo {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: $grisOscuro;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-card-icono {
+        width: 4.6rem;
+        height: 4.6rem;
+        border-radius: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+
+        &.icono-azul {
+            background-color: rgba(13, 166, 243, 0.12);
+            color: #0284c7;
+        }
+        &.icono-ambar {
+            background-color: rgba(245, 158, 11, 0.12);
+            color: #d97706;
+        }
+        &.icono-verde {
+            background-color: rgba(16, 185, 129, 0.12);
+            color: #059669;
+        }
+        &.icono-dorado {
+            background-color: rgba(139, 92, 246, 0.12);
+            color: #7c3aed;
+        }
+    }
+
+    .stat-card-valor {
+        font-size: 3rem;
+        font-weight: 800;
+        color: $negro;
+        line-height: 1.2;
+        margin-bottom: 0.8rem;
+    }
+
+    .stat-card-pie {
+        font-size: 1.3rem;
+        color: $grisOscuro;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+
+        .badge-subtexto {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: $grisOscuro;
+            font-weight: 500;
+        }
+
+        .badge-alerta-pendiente {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #fef3c7;
+            color: #b45309;
+            padding: 0.35rem 0.9rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .badge-alerta-ok {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #dcfce7;
+            color: #15803d;
+            padding: 0.35rem 0.9rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .badge-subtexto-verde {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #15803d;
+            font-weight: 600;
+        }
+    }
+}
+
+/* Contenedor Responsive con scroll horizontal para tablas del Admin */
+.tabla-contenedor-responsive {
     width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 1.4rem;
+    background-color: $blanco;
+    border: 1px solid $gris;
+    box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+
+    /* Estilización del scrollbar horizontal */
+    &::-webkit-scrollbar {
+        height: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+        &:hover {
+            background: #94a3b8;
+        }
+    }
+}
+
+/* Estilos de las Tablas del Panel de Administración */
+table.tabla-productos {
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 100%;
+    min-width: 880px;
     border-collapse: collapse;
     background-color: $blanco;
-    border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.05);
-    border: 1px solid $gris;
+    border: none;
     font-size: 1.5rem;
 
     thead {
@@ -92,17 +271,22 @@ table.tabla-productos {
                         margin-bottom: 0;
                     }
                 }
+
+                &.col-acciones {
+                    text-align: center;
+                    white-space: nowrap;
+                }
             }
 
-            // Centrar la columna de Imagen (4) y Acciones (6)
-            td:nth-child(4), td:nth-child(6) {
+            // Centrar la columna de Imagen (4), Destacado (6) y Acciones (8)
+            td:nth-child(4), td:nth-child(6), td:nth-child(8) {
                 text-align: center;
             }
         }
     }
 
     // Centrar los encabezados correspondientes
-    thead th:nth-child(4), thead th:nth-child(6) {
+    thead th:nth-child(4), thead th:nth-child(6), thead th:nth-child(8) {
         text-align: center;
     }
 
@@ -118,6 +302,66 @@ table.tabla-productos {
     }
 }
 
+// Botones de acción con iconos en la tabla de productos
+.acciones-iconos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+
+    .form-eliminar {
+        margin: 0;
+        display: inline-flex;
+    }
+}
+
+.btn-accion-icono {
+    width: 3.8rem;
+    height: 3.8rem;
+    border-radius: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+
+    &:active {
+        transform: scale(0.92);
+    }
+
+    &.btn-editar {
+        background-color: #fef3c7;
+        color: #b45309;
+        border: 1px solid #fde68a;
+
+        &:hover {
+            background-color: #f59e0b;
+            color: #ffffff;
+            border-color: #f59e0b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+        }
+    }
+
+    &.btn-eliminar {
+        background-color: #fee2e2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+
+        &:hover {
+            background-color: #ef4444;
+            color: #ffffff;
+            border-color: #ef4444;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+        }
+    }
+}
+
 .imagen-small {
     width: 20rem;
     margin-bottom: 2rem;
@@ -125,7 +369,9 @@ table.tabla-productos {
 
 // Estilos específicos para la tabla de pedidos
 table.tabla-pedidos {
-    margin-top: 2rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    min-width: 980px;
 
     thead th {
         font-size: 1.4rem;
