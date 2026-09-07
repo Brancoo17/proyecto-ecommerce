@@ -1,9 +1,11 @@
 <?php
     use Model\Producto;
     use Model\ProductoTalle;
+    use Model\Pedido;
     /** @var string|null $resultado */
     /** @var Producto[] $productos */
     /** @var ProductoTalle $productoTalles */
+    /** @var Pedido[] $pedidos */
 
     // Métricas del Dashboard (KPIs)
     $totalProductos = count($productos);
