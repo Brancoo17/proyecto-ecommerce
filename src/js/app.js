@@ -74,6 +74,7 @@ function iniciarApp() {
     cargarCheckoutPage();
     iniciarCatalogoPage();
     iniciarAdminTabsYBuscador();
+    iniciarLoginTogglePassword();
 }
 
 /**
@@ -1104,7 +1105,6 @@ window.guardarEstadoPedido = guardarEstadoPedido;
 window.cambiarTabAdmin = cambiarTabAdmin;
 window.toggleDestacadoProducto = toggleDestacadoProducto;
 
-// Vincular globalmente para llamadas en HTML
 window.toggleCart = toggleCart;
 window.filtrarProductos = filtrarProductos;
 window.enviarPorWhatsApp = enviarPorWhatsApp;
@@ -1112,6 +1112,39 @@ window.toggleMenuMobile = toggleMenuMobile;
 window.filtrarProductosCatalogo = filtrarProductosCatalogo;
 window.ordenarProductosLista = ordenarProductosLista;
 window.resetearFiltros = resetearFiltros;
+window.iniciarLoginTogglePassword = iniciarLoginTogglePassword;
+
+/**
+ * Configura la funcionalidad de mostrar u ocultar la contraseña en el login
+ */
+function iniciarLoginTogglePassword() {
+    const btnToggle = document.querySelector('#toggle-password');
+    const inputPassword = document.querySelector('#password');
+    const iconoOjo = document.querySelector('#icono-ojo');
+
+    if (!btnToggle || !inputPassword || !iconoOjo) return;
+
+    btnToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const esPassword = inputPassword.type === 'password';
+
+        inputPassword.type = esPassword ? 'text' : 'password';
+
+        if (esPassword) {
+            iconoOjo.classList.remove('fa-eye');
+            iconoOjo.classList.add('fa-eye-slash');
+            btnToggle.setAttribute('aria-label', 'Ocultar contraseña');
+            btnToggle.setAttribute('title', 'Ocultar contraseña');
+        } else {
+            iconoOjo.classList.remove('fa-eye-slash');
+            iconoOjo.classList.add('fa-eye');
+            btnToggle.setAttribute('aria-label', 'Mostrar contraseña');
+            btnToggle.setAttribute('title', 'Mostrar contraseña');
+        }
+
+        inputPassword.focus();
+    });
+}
 
 
 
