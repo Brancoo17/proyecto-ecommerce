@@ -353,6 +353,7 @@
             .text-destacado {
                 color: v.$secundario;
                 background: linear-gradient(90deg, v.$secundario 0%, #fff 100%);
+                background-clip: text;
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
             }
