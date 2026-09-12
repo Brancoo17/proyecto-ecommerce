@@ -29,7 +29,7 @@ class ProductoController {
             if(!empty($_FILES['producto']['tmp_name']['imagen']) && is_uploaded_file($_FILES['producto']['tmp_name']['imagen'])) {
                 $manager = new Image(Driver::class);
                 $contenidoImagen = file_get_contents($_FILES['producto']['tmp_name']['imagen']);
-                $imagen = $manager->decode($contenidoImagen)->cover(800, 600);
+                $imagen = $manager->decode($contenidoImagen)->scaleDown(width: 1200, height: 1200);
                 $producto->setImagen($nombreImagen);
             }
 
@@ -111,7 +111,7 @@ class ProductoController {
             if(!empty($_FILES['producto']['tmp_name']['imagen']) && is_uploaded_file($_FILES['producto']['tmp_name']['imagen'])) {
                 $manager = new Image(Driver::class);
                 $contenidoImagen = file_get_contents($_FILES['producto']['tmp_name']['imagen']);
-                $imagen = $manager->decode($contenidoImagen)->cover(800, 600);
+                $imagen = $manager->decode($contenidoImagen)->scaleDown(width: 1200, height: 1200);
                 $producto->setImagen($nombreImagen);
             }
 

@@ -293,7 +293,9 @@ table.tabla-productos {
     .imagen-tabla {
         width: 7.5rem;
         height: 7.5rem;
-        object-fit: cover;
+        object-fit: contain;
+        background-color: #ffffff;
+        padding: 0.3rem;
         display: block;
         margin: 0 auto;
         border-radius: 0.8rem;

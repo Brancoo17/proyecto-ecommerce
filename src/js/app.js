@@ -695,9 +695,8 @@ function enviarPorWhatsApp() {
     });
 
     // 2. Construir el mensaje de WhatsApp
-    let mensaje = `*Nuevo Pedido - Riada Indumentaria*\n\n`;
+    let mensaje = `*Hola! Quería hacer un pedido de la página:*\n\n`;
     mensaje += `*Cliente:* ${nombre}\n`;
-    mensaje += `*Teléfono:* ${telefono}\n\n`;
     mensaje += `*Productos:*\n`;
 
     carrito.forEach(item => {
